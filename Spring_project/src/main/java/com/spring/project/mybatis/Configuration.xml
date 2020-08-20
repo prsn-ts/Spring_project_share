@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 이 부분 때문에 Configuration.xml에 다양한 요소들을 작성할 수 있다. -->
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<!-- type  별칭 등록 -->
+	<typeAliases>
+		<!-- LoginDto 별칭 설정. -->
+		<typeAlias type="com.spring.project.login.dto.LoginDto"
+			alias="loginDto"/>
+	</typeAliases>
+
+	<!-- Mapper 문서가 동작하기위한 설정. -->
+	<mappers>
+		<mapper resource="com/spring/project/mybatis/LoginMapper.xml"/>
+	</mappers>
+</configuration>

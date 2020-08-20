@@ -1,0 +1,126 @@
+/* header 부분 */
+.jumbotron{
+	background: #EFFFF8;
+}
+nav {
+	background: #1DD8A8;
+	height:80px;
+}
+nav .nav-profile{
+	border-radius: 50%!important;
+	width: 60px; height: 60px;
+}
+nav .login_btn{
+	background-color: #E5FFEA;
+	border-color: #28a745;
+	color: #28a745;
+}
+nav .signup_btn{
+	background-color: #E5FFEA;
+	border-color: #28a745;
+	color: #28a745;
+}
+.jumbotron .main_title{
+	font-size:70px;
+	text-decoration: none; 
+	display: block; color: #289F5D;
+}
+.jumbotron .sub_title{
+	font-size:30px; 
+	text-decoration: none; 
+	color: #289F5D;
+}
+
+/* content 부분 */
+.carousel_all{
+	padding: 25px 25px 25px;
+	background: #f2f2f2;
+}
+.carousel_all .carousel_title a{
+	color:white;
+	text-decoration: none;
+}
+/* myrecipe.jsp 페이지 부분 css */
+.card_one{
+	height: 350px;
+}
+@media (max-width: 576px) {
+	.card_one img{
+		width: 100%;
+		height: 195px;
+	}
+}
+@media (min-width: 576px) {
+	.card_one img{
+		width: 100%;
+		height: 195px;
+	}
+}
+
+@media (min-width: 768px) {
+	.card_one img{
+		width: 100%;
+		height: 175px;
+	}
+}
+
+@media (min-width: 992px) {
+	.card_one img{
+		width: 100%;
+		height: 155px;
+	}
+}
+
+@media (min-width: 992px) {
+	.card_one img{
+		width: 100%;
+		height: 135px;
+	}
+}
+/* //myrecipe.jsp 페이지 부분 css */
+
+/* 푸터 부분 */
+footer{
+	background:#289F5D;
+	font-family: 'Roboto', sans-serif;
+}
+footer .row .intro .f_link a{
+	font-size:12px; 
+	color:white; 
+	text-decoration: none;
+}
+footer .intro .f_link{
+	padding-top: 10px;
+}
+footer .intro .f_link span{
+	color:#ddd;
+}
+.f_info {
+	color:white; 
+	font-size:12px;
+	padding-bottom: 10px;
+}
+footer .banner .up_banner{
+	width: 100%; height: 50px;
+	color: white; margin-top: 10px;
+}
+footer .banner .down_banner div{
+	display: inline-block;
+	padding: 15px;
+	text-align: center;
+}
+footer .banner .down_banner i{
+	color: white;
+}
+footer .banner .down_banner div .sns_text {
+	font-size: 12px;
+	color:white;
+}
+footer .banner .down_banner div a:hover {
+	text-decoration: none;
+}
+footer .logo_part {
+	margin-top: 10px;
+	color: white;
+}
+

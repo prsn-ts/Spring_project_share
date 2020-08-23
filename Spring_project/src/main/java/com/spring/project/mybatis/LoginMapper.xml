@@ -2,9 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="login">
 	<select id="getData" parameterType="string" resultType="loginDto">
-		SELECT id, pwd, email, profile, savefilename
+		SELECT id, pwd, email, profile, savefilename,
 			TO_CHAR(regdate, 'YY.MM.DD HH24"시"MM"분"') AS regdate
 		FROM login
 		WHERE id=#{id}
+	</select>
+	<insert id="insert" parameterType="loginDto">
+		INSERT INTO login
+		(id, pwd, email, regdate)
+		VALUES(#{id}, #{pwd}, #{email}, SYSDATE)
+	</insert>
+	<select id="isExist" parameterType="String" resultType="String">
+		SELECT id
+		FROM login
+		WHERE id=#{inputId}
 	</select>
 </mapper>

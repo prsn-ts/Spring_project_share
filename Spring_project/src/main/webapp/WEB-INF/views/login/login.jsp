@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>/login/login.do</title>
+<title>/login/login.jsp</title>
 </head>
 <body>
 <c:choose>

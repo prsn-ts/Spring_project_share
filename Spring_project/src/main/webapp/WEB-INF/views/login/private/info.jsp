@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>/login/private/info.do</title>
+<title>/login/private/info.jsp</title>
 <style>
 	/* 이미지를 작은 원형으로 만든다. */
 	#profileImage{

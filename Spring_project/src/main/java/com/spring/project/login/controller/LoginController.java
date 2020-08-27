@@ -137,4 +137,16 @@ public class LoginController {
 		//이동한다.
 		return mView;
 	}
+	
+	//회원정보 수정 요청 처리
+	@RequestMapping("/login/private/updateform.do")
+	public ModelAndView updateForm(HttpServletRequest request,
+			ModelAndView mView) {
+		//로그인된 정보를 가져온다.
+		loginService.getLoginInfo(request, mView);
+		//ModelAndView 객체에 view 페이지 정보를 담는다.
+		mView.setViewName("login/private/updateform");
+		//view 페이지로 이동한다.
+		return mView;
+	}
 }

@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>/login/private/info.jsp</title>
+<title>/login/private/info.do</title>
 <style>
 	/* 이미지를 작은 원형으로 만든다. */
 	#profileImage{
@@ -73,7 +73,7 @@
 						</tr>
 						<tr>
 							<th>비밀번호</th>
-							<td><a href="pwd_updateform.jsp">수정하기</a></td>
+							<td><a href="pwd_updateform.do">수정하기</a></td>
 						</tr>
 						<tr>
 							<th>이메일</th>
@@ -84,7 +84,7 @@
 							<td>${dto.regdate }</td>
 						</tr>
 					</table>
-					<a href="updateform.jsp">개인정보 수정</a><br />
+					<a href="updateform.do">개인정보 수정</a><br />
 					<hr>
 					<a href="javascript:deleteConfirm()">탈퇴</a>
                 </div>            
@@ -105,7 +105,7 @@
 	function deleteConfirm(){
 		var isDelete=confirm("${id } 회원님 탈퇴 하시겠습니까?");
 		if(isDelete){
-			location.href="delete.jsp";
+			location.href="delete.do";
 		}
 	}
 	//프로필 이미지를 클릭했을 때 프로필 수정에 대해 실행할 함수 등록

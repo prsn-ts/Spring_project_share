@@ -116,4 +116,25 @@ public class LoginController {
 		//view 페이지로 forward 이동한다.
 		return mView;
 	}
+	
+	//비밀번호 수정 폼 요청 처리
+	@RequestMapping("/login/private/pwd_updateform")
+	public String pwdUpdateform() {
+		
+		//view 페이지로 이동하기.
+		return "login/private/pwd_updateform";
+	}
+	
+	//비밀번호 수정 요청 처리
+	@RequestMapping("/login/private/pwd_update")
+	public ModelAndView pwdUpdate(ModelAndView mView,
+			LoginDto dto, HttpServletRequest request) {
+		//loginService 객체를 이용해서 비밀번호를 수정한다.
+		loginService.updateUserPwd(dto, request, mView);
+		
+		//view 페이지 정보를 담고
+		mView.setViewName("login/private/pwd_update");
+		//이동한다.
+		return mView;
+	}
 }

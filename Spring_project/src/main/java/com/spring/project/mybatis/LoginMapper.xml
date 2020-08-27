@@ -17,4 +17,9 @@
 		FROM login
 		WHERE id=#{inputId}
 	</select>
+	<update id="updatePwd" parameterType="loginDto">
+		UPDATE login
+		SET pwd=#{newPwd}
+		WHERE id=#{id}
+	</update>
 </mapper>

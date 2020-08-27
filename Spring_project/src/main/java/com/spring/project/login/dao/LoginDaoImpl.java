@@ -39,5 +39,10 @@ public class LoginDaoImpl implements LoginDao{
 			return true;
 		}
 	}
+	//비밀번호를 수정하기 위한 메소드
+	@Override
+	public void updatePwd(LoginDto dto) {
+		session.update("login.updatePwd", dto);
+	}
 	
 }

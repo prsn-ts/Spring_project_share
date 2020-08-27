@@ -11,4 +11,6 @@ public interface LoginDao {
 	public void insert(LoginDto dto, ModelAndView mView);
 	//아이디 중복검사를 수행하기 위한 추상 메소드
 	public boolean isExist(String inputId);
+	//비밀번호 수정 요청 처리하는 추상 메소드
+	public void updatePwd(LoginDto dto);
 }

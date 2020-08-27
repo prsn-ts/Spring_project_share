@@ -119,4 +119,30 @@ public class LoginServiceImpl implements LoginService{
 		// dao 객체를 이용해서 새로운 사용자 정보를 DB에 저장하기
 		loginDao.insert(dto, mView);
 	}
+	@Override
+	public void updateUserPwd(LoginDto dto, HttpServletRequest request, ModelAndView mView) {
+		//세션 영역에서 아이디 읽어오기
+		String id=(String)request.getSession().getAttribute("id");
+		//LoginDto 객체에 세션에 있는 id를 담는다.
+		dto.setId(id);
+		
+		//DB에 저장된 암호화된 비밀번호와 기존 비밀번호가 일치하는 지 확인하고 일치하면 새로운 비밀번호를 암호화해서 DB에 저장.
+		//작업 성공여부
+		boolean isSuccess = false;
+		//1. DB에 저장된 비밀번호를 읽어온다.
+		LoginDto resultDto = loginDao.getData(id);
+		//2. DB에 암호화해서 저장된 비밀번호와 기존 비밀번호가 일치하는 지 확인.
+		isSuccess = BCrypt.checkpw(dto.getPwd(), resultDto.getPwd());
+		if(isSuccess) {//isSuccess가 true 일 경우(기존 비밀번호와 암호화된 비밀번호가 같을 경우)
+			//새로운 비밀번호를 암호화한다.
+			BCryptPasswordEncoder pe = new BCryptPasswordEncoder();
+			String encodedNewPwd = pe.encode(dto.getNewPwd());
+			//암호화된 새 비밀번호를 dto 에 다시 넣어준다.
+			dto.setNewPwd(encodedNewPwd);
+			//dao 를 이용해서 DB 에 반영한다.
+			loginDao.updatePwd(dto);
+		}
+		//mView 객체에 성공 여부를 담는다.
+		mView.addObject("isSuccess", isSuccess);
+	}
 }

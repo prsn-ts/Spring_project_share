@@ -105,4 +105,15 @@ public class LoginController {
 		//map을 리턴한다.
 		return map;
 	}
+	
+	//회원 정보 보기 요청 처리
+	@RequestMapping("/login/private/info.do")
+	public ModelAndView info(HttpServletRequest request, ModelAndView mView) {
+		//로그인된 정보를 가져온다.
+		loginService.getLoginInfo(request, mView);
+		//ModelAndView 객체에 view 페이지 정보를 담는다.
+		mView.setViewName("login/private/info");
+		//view 페이지로 forward 이동한다.
+		return mView;
+	}
 }

@@ -1,15 +1,27 @@
 package com.spring.project.login.service;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.net.URLEncoder;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.spring.project.login.dao.LoginDao;
@@ -144,5 +156,57 @@ public class LoginServiceImpl implements LoginService{
 		}
 		//mView 객체에 성공 여부를 담는다.
 		mView.addObject("isSuccess", isSuccess);
+	}
+	//프로필 파일 선택하기 요청을 처리하는 추상 메소드
+	@Override
+	public Map<String, Object> saveProfile(MultipartFile image,
+			HttpServletRequest request) {
+		//업로드된 파일의 정보를 가지고 있는 MultipartFile 객체의 참조값 얻어오기
+		MultipartFile myFile = image;
+		//원본 파일명과 파일의 크기를 알아낸다.
+		//원본 파일명
+		String orgFileName = myFile.getOriginalFilename();
+		//파일의 크기
+		long fileSize = myFile.getSize();
+		
+		//임시 폴더에 있는 파일을 upload 폴더에 옮겨야한다.
+		// webapp/upload 폴더 까지의 실제 경로(서버의 파일 시스템 상에서의 경로)
+		String realPath = request.getServletContext().getRealPath("/upload");
+		//저장할 파일의 상세 경로
+		String filePath = realPath+File.separator;
+		//디렉토리를 만들 파일 객체 생성
+		File upload = new File(filePath);
+		if(!upload.exists()) {//만일 디렉토리가 존재하지 않으면
+			upload.mkdir(); //만들어 준다.
+		}
+		//저장할 파일 명을 구성한다.
+		String saveFileName = 
+				System.currentTimeMillis()+orgFileName;
+		//이미지 파일이 저장된 경로
+	    String imageSrc = "/upload/"+saveFileName;
+	    
+		try {
+			//upload 폴더에 파일을 저장한다.
+			//(서버의 파일 시스템 상에서의 경로+File.separator(filePath)와 저장된 파일 이름(saveFileName)의 정보를 가진 파일 객체를 생성한 후에 transferTo 함수의 인자로 던져주면 내부적으로 임시 폴더에 있던 파일을 upload 폴더에 옮겨준다(저장해준다))
+			myFile.transferTo(new File(filePath+saveFileName));
+			System.out.println(filePath+saveFileName);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		//dto 에 업로드된 파일의 정보를 담는다.
+		//세션에 있는 아이디값을 가져온다.
+		String id = (String)request.getSession().getAttribute("id");
+		
+		LoginDto dto = new LoginDto();
+		dto.setId(id); //로그인한 아이디를 dto에 저장.
+		dto.setSaveFileName(saveFileName);
+		dto.setProfile(imageSrc);
+	    
+	    //이미지 경로와 저장된 파일이름을 mView에 담는다.
+	    Map<String, Object> resultValue = new HashMap<>();
+	    resultValue.put("imageSrc", imageSrc);
+	    resultValue.put("saveFileName", saveFileName);
+	    //리턴한다.
+	    return resultValue;
 	}
 }

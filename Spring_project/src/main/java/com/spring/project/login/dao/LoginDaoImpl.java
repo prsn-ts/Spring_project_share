@@ -44,5 +44,10 @@ public class LoginDaoImpl implements LoginDao{
 	public void updatePwd(LoginDto dto) {
 		session.update("login.updatePwd", dto);
 	}
+	//업데이트된 프로필 및 이미지 정보를 DB에 저장하는 메소드
+	@Override
+	public void update(LoginDto dto) {
+		session.update("login.update", dto);
+	}
 	
 }

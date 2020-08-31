@@ -22,4 +22,9 @@
 		SET pwd=#{newPwd}
 		WHERE id=#{id}
 	</update>
+	<update id="update" parameterType="loginDto">
+		UPDATE login
+		SET profile=#{profile}, savefilename=#{saveFileName}, email=#{email}
+		WHERE id=#{id}
+	</update>
 </mapper>

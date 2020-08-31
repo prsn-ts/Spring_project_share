@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.spring.project.login.dao.LoginDao;
@@ -148,5 +149,15 @@ public class LoginController {
 		mView.setViewName("login/private/updateform");
 		//view 페이지로 이동한다.
 		return mView;
+	}
+	
+	//프로필 파일 선택하기 요청 처리
+	@RequestMapping("/login/private/profile_upload.do")
+	@ResponseBody
+	public Map<String, Object> profile_upload(@RequestParam MultipartFile image, HttpServletRequest request) {
+		//프로필 업로드 요청을 처리할 서비스를 동작시킨다.
+		Map<String, Object> saveProfile = loginService.saveProfile(image, request);
+		//view 페이지로 이동한다.
+		return saveProfile;
 	}
 }

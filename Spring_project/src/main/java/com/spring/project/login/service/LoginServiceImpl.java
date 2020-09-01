@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URLEncoder;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +32,9 @@ import com.spring.project.login.dto.LoginDto;
 public class LoginServiceImpl implements LoginService{
 	@Autowired
 	private LoginDao loginDao;
+	
+	@Autowired
+	ServletContext servletContext;
 
 	@Override
 	public void getLoginInfo(HttpServletRequest request, ModelAndView mView) {
@@ -193,15 +197,31 @@ public class LoginServiceImpl implements LoginService{
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
-		
-		//dto 에 업로드된 파일의 정보를 담는다.
-		//세션에 있는 아이디값을 가져온다.
-		String id = (String)request.getSession().getAttribute("id");
-		
-		LoginDto dto = new LoginDto();
-		dto.setId(id); //로그인한 아이디를 dto에 저장.
-		dto.setSaveFileName(saveFileName);
-		dto.setProfile(imageSrc);
+		//session 영역에 선택한 프로필이 저장된 물리적인 경로를 저장한다.
+		request.getSession().setAttribute(orgFileName, filePath+saveFileName);
+		//session 영역에 저장된 이전의 프로필 정보들을 가져온다.
+		Enumeration<String> filePaths = request.getSession().getAttributeNames();
+	    //filePaths가 존재하는 동안 반복.
+		while(filePaths.hasMoreElements()){
+		    String fileName = filePaths.nextElement();
+		    String file_path = (String)request.getSession().getAttribute(fileName);
+		    //선택한 프로필의 원본 파일명과 session에 저장된 원본 파일명이 같지 않은 경우
+		    if(!orgFileName.equals(fileName)) {
+			    //upload 폴더 내에 있는 파일을 삭제한다.
+		    	//파일 객체 생성 후 파일 삭제
+		    	File file = new File(file_path);
+		    	if(file.exists()){
+		    		if(file.delete()){
+		    			System.out.println("삭제 성공!");
+		    		}else{
+		    			System.out.println("삭제 실패..");
+		    		}
+		    	}else{ 
+		    		System.out.println("파일이 존재하지 않습니다.");
+		    	}
+		    }
+		    System.out.println(fileName + " : " + file_path);
+		}
 	    
 	    //이미지 경로와 저장된 파일이름을 mView에 담는다.
 	    Map<String, Object> resultValue = new HashMap<>();

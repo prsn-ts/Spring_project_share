@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -139,7 +140,7 @@ public class LoginController {
 		return mView;
 	}
 	
-	//회원정보 수정 요청 처리
+	//회원정보 수정 폼 요청 처리
 	@RequestMapping("/login/private/updateform.do")
 	public ModelAndView updateForm(HttpServletRequest request,
 			ModelAndView mView) {
@@ -147,6 +148,18 @@ public class LoginController {
 		loginService.getLoginInfo(request, mView);
 		//ModelAndView 객체에 view 페이지 정보를 담는다.
 		mView.setViewName("login/private/updateform");
+		//view 페이지로 이동한다.
+		return mView;
+	}
+	
+	//회원정보 수정 요청 처리
+	@RequestMapping("/login/private/update.do")
+	public ModelAndView updateForm(LoginDto dto, HttpServletRequest request,
+			ModelAndView mView) {
+		//로그인된 정보를 가져온다.
+		loginService.updateUser(dto, request, mView);
+		//ModelAndView 객체에 view 페이지 정보를 담는다.
+		mView.setViewName("login/private/update");
 		//view 페이지로 이동한다.
 		return mView;
 	}

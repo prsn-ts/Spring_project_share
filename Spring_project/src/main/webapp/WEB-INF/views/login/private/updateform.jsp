@@ -74,7 +74,7 @@
 					<%-- 프로필 이미지를 DB에 저장하기 위해 hidden type으로 설정. --%>
 					<input type="hidden" name="profile" id="profile" value="${dto.profile}"/>
 					<%-- 프로필 이미지의 실제 이름을 DB에 저장하기 위해 hidden type으로 설정. --%>
-					<input type="hidden" name="profile_name" id="profile_name" value="${dto.saveFileName}"/>
+					<input type="hidden" name="saveFileName" id="profile_name" value="${dto.saveFileName}"/>
 					<%-- id를 disabled로 설정했기 때문에 id에 해당하는 value값을 hidden으로 전송하기 --%>
 					<input type="hidden" id="id" name="id" value="${dto.id}"/>
 					<div class="form-group">
@@ -94,7 +94,7 @@
 					<button type="submit" class="btn btn-primary btn-user btn-block">수정확인</button>
 					<hr>
 					<button type="reset" class="btn btn-danger btn-user btn-block" 
-					onclick="window.location.href='${pageContext.request.contextPath}/index.do'">취소</button>
+					onclick="window.location.href='${pageContext.request.contextPath}/home.do'">취소</button>
 				</form>
 				
 				<form action="profile_upload.do" method="post" 

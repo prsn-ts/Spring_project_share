@@ -43,7 +43,7 @@
 							<img class="nav-profile" id="profileImage" src="${pageContext.request.contextPath}/resources/images/noprofile.jpg">
 						</c:when>
 						<c:otherwise>
-							<img class="nav-profile" id="profileImage" src="${pageContext.request.contextPath}/resources${dto.profile}">
+							<img class="nav-profile" id="profileImage" src="${pageContext.request.contextPath}${dto.profile}">
 						</c:otherwise>
 	                  </c:choose>            
 	                </a>

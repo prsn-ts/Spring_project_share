@@ -193,6 +193,7 @@ public class LoginServiceImpl implements LoginService{
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
+		
 		//dto 에 업로드된 파일의 정보를 담는다.
 		//세션에 있는 아이디값을 가져온다.
 		String id = (String)request.getSession().getAttribute("id");
@@ -208,5 +209,16 @@ public class LoginServiceImpl implements LoginService{
 	    resultValue.put("saveFileName", saveFileName);
 	    //리턴한다.
 	    return resultValue;
+	}
+	@Override
+	public void updateUser(LoginDto dto, HttpServletRequest request, ModelAndView mView) {
+		//프로필 이미지를 수정하지 않으면
+		if(dto.getProfile().equals("null") && dto.getSaveFileName().equals("null")){ 
+			//문자열 "null"이 아닌 실제 null 값을 DB에 넣어준다.
+			dto.setProfile(null);
+			dto.setSaveFileName(null);
+		}
+		//UsersDao 객체를 이용해서 수정 반영한다.
+		loginDao.update(dto);
 	}
 }

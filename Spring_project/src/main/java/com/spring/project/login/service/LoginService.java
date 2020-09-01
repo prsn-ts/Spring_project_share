@@ -24,6 +24,7 @@ public interface LoginService {
 	//비밀번호 수정 요청을 처리하는 추상 메소드
 	public void updateUserPwd(LoginDto dto, HttpServletRequest request, ModelAndView mView);
 	//프로필 파일 선택하기 요청을 처리하는 추상 메소드
-	public Map<String, Object> saveProfile(MultipartFile image,
-			HttpServletRequest request);
+	public Map<String, Object> saveProfile(MultipartFile image, HttpServletRequest request);
+	//회원정보 수정 요청 처리를 위한 추상 메소드
+	public void updateUser(LoginDto dto, HttpServletRequest request, ModelAndView mView);
 }

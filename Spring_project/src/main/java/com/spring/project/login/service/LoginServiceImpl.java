@@ -13,6 +13,7 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
@@ -230,6 +231,7 @@ public class LoginServiceImpl implements LoginService{
 	    //리턴한다.
 	    return resultValue;
 	}
+	//회원정보 수정 요청 처리를 위한 메소드
 	@Override
 	public void updateUser(LoginDto dto, HttpServletRequest request, ModelAndView mView) {
 		//프로필 이미지를 수정하지 않으면
@@ -240,5 +242,51 @@ public class LoginServiceImpl implements LoginService{
 		}
 		//UsersDao 객체를 이용해서 수정 반영한다.
 		loginDao.update(dto);
+	}
+	//프로필 사진 지우기 요청을 처리하는 메소드
+	@Override
+	public void deleteProfile(LoginDto dto, HttpServletRequest request) {
+		//프로필 이미지 경로와 실제 이름이 존재하는 경우(null이 아닌 경우)
+		if(!dto.getProfile().equals("null") && !dto.getSaveFileName().equals("null")){ 
+			//문자열 "null"이 아닌 실제 null 값을 DB에 넣어준다.
+			dto.setProfile(null);
+		}
+		//ServletContext 객체 생성.
+		ServletContext context = request.getServletContext();
+		
+		//삭제할 파일의 실제 경로 알아내기
+		String path=context.getRealPath("/upload")
+				+File.separator+dto.getSaveFileName();
+		System.out.println(dto.getSaveFileName());
+		//파일 객체 생성 후 파일 삭제
+		File file = new File(path);
+		if(file.exists()){
+			if(file.delete()){
+				System.out.println("삭제 성공!");
+			}else{
+				System.out.println("삭제 실패..");
+			}
+		}else{ 
+			System.out.println("파일이 존재하지 않습니다.");
+		}
+		//DB에 저장하기전에 saveFileName 변수 값이 문자열 "null"인지 확인 후 null인 경우 실제 null값을 대입.
+		//이 조건문을 하는 이유는 위에서 받은 profile_name의 파라미터 값을 파일 삭제하기 전에 null로 바꿔서 파일 삭제가 안되는 것을 방지하기 위함.
+		//파일 삭제가 끝난 후 파일 삭제가 되어서 비었다는 의미로 null로 대입.
+		if(!dto.getSaveFileName().equals("null")){
+			dto.setSaveFileName(null);
+		}
+		
+		//LoginDao 객체를 이용해서 수정 반영한다.
+		loginDao.profile_delete(dto);
+	}
+	//회원 탈퇴 요청 관련 메소드
+	@Override
+	public void deleteUser(HttpSession session) {
+		//세션에 저장된 아이디를 읽어와서
+		String id = (String)session.getAttribute("id");
+		//삭제
+		loginDao.delete(id);
+		//로그 아웃 처리
+		session.invalidate();
 	}
 }

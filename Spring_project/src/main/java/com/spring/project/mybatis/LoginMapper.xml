@@ -27,4 +27,13 @@
 		SET profile=#{profile}, savefilename=#{saveFileName}, email=#{email}
 		WHERE id=#{id}
 	</update>
+	<update id="profile_delete" parameterType="loginDto">
+		UPDATE login
+		SET profile=#{profile, jdbcType=VARCHAR}, savefilename=#{saveFileName, jdbcType=VARCHAR}
+		WHERE id=#{id, jdbcType=VARCHAR}
+	</update>
+	<delete id="delete" parameterType="String">
+		DELETE FROM login
+		WHERE id = #{id}
+	</delete>
 </mapper>

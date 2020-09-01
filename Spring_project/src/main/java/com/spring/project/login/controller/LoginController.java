@@ -163,6 +163,18 @@ public class LoginController {
 		//view 페이지로 이동한다.
 		return mView;
 	}
+	//회원 탈퇴 요청 처리
+	@RequestMapping("/login/private/delete.do")
+	public ModelAndView delete(HttpServletRequest request,
+			ModelAndView mView) {
+		//아이디 정보를 읽어내서 mView에 대입.
+		mView.addObject("id", request.getSession().getAttribute("id"));
+		//서비스를 이용해서 사용자 정보를 삭제하고
+		loginService.deleteUser(request.getSession());
+		//view 페이지로 forward 이동해서 응답
+		mView.setViewName("login/private/delete");
+		return mView;
+	}
 	
 	//프로필 파일 선택하기 요청 처리
 	@RequestMapping("/login/private/profile_upload.do")
@@ -172,5 +184,17 @@ public class LoginController {
 		Map<String, Object> saveProfile = loginService.saveProfile(image, request);
 		//view 페이지로 이동한다.
 		return saveProfile;
+	}
+	
+	//프로필 사진 지우기 요청 처리
+	@RequestMapping("/login/private/profile_delete")
+	public String profile_delete(LoginDto dto, HttpServletRequest request) {
+		System.out.println("dto.getId():"+dto.getId());
+		System.out.println("dto.getProfile():"+dto.getProfile());
+		System.out.println("dto.getSaveFileName():"+dto.getSaveFileName());
+		//프로필 사진 삭제 요청을 처리할 서비스를 동작시킨다.
+		loginService.deleteProfile(dto, request);
+		//view 페이지로 이동한다.
+		return "login/private/profile_delete";
 	}
 }

@@ -49,5 +49,15 @@ public class LoginDaoImpl implements LoginDao{
 	public void update(LoginDto dto) {
 		session.update("login.update", dto);
 	}
+	//프로필 사진을 지우는 메소드
+	@Override
+	public void profile_delete(LoginDto dto) {
+		session.update("login.profile_delete", dto);
+	}
+	//탈퇴 처리하는 메소드
+	@Override
+	public void delete(String id) {
+		session.delete("login.delete", id);
+	}
 	
 }

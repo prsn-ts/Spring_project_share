@@ -9,10 +9,14 @@
 		<!-- LoginDto 별칭 설정. -->
 		<typeAlias type="com.spring.project.login.dto.LoginDto"
 			alias="loginDto"/>
+		<!-- MyrecipeDto 별칭 설정. -->
+		<typeAlias type="com.spring.project.myrecipe.dto.MyrecipeDto"
+			alias="myrecipeDto"/>
 	</typeAliases>
 
 	<!-- Mapper 문서가 동작하기위한 설정. -->
 	<mappers>
 		<mapper resource="com/spring/project/mybatis/LoginMapper.xml"/>
+		<mapper resource="com/spring/project/mybatis/MyrecipeMapper.xml"/>
 	</mappers>
 </configuration>

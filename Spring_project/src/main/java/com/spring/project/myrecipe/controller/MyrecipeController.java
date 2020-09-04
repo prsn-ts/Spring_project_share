@@ -59,4 +59,14 @@ public class MyrecipeController {
 		//dto 정보를 담은 map 객체를 리턴한다.
 		return dtoData;
 	}
+	
+	//레시피 저장 요청 처리
+	@RequestMapping("/my_recipe/private/insert.do")
+	public ModelAndView insert(MyrecipeDto dto, HttpServletRequest request, ModelAndView mView) {
+		//서비스 객체를 통해 작성된 레시피를 저장한다.
+		myrecipeService.saveRecipe(dto, request, mView);
+		//view 페이지의 정보를 담는다.
+		mView.setViewName("my_recipe/private/insert");
+		return mView;
+	}
 }

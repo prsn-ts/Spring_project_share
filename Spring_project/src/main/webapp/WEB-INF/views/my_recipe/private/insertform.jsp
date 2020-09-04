@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>/my_recipe/private/insertform.jsp</title>
+<title>/my_recipe/private/insertform.do</title>
 
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap.css" />
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
@@ -63,17 +63,17 @@
 									<%-- 임시 저장된 내용 불러오기 버튼 --%>
 									<button class="temp_lead btn btn-primary">임시 저장된 내용 불러오기</button>
 									<%-- 임시 저장된 내용 삭제 버튼 --%>
-									<a href="temp_delete.jsp?writer={{dtoData.dto.id}}" class="temp_delete btn btn-outline-danger">임시 저장된 내용 삭제하기</a>
+									<a href="temp_delete.do?writer={{dtoData.dto.id}}" class="temp_delete btn btn-outline-danger">임시 저장된 내용 삭제하기</a>
 								</div>
-								<form action="insert.jsp" method="post" id="submitForm">
+								<form action="insert.do" method="post" id="submitForm">
 									<div style="margin-bottom: 30px;">
 										<%-- 임시 저장 버튼 --%>
 										<button class="temp_save btn btn-outline-success">임시 저장</button>
 									</div>
 									<%-- 대표 이미지 경로를 DB에 저장하기 위해 hidden type으로 설정. --%>
-									<input type="hidden" name="showImage_path" id="showImage_path"/>
+									<input type="hidden" name="imagePath" id="showImage_path"/>
 									<%-- 프로필 이미지의 실제 이름을 DB에 저장하기 위해 hidden type으로 설정. --%>
-									<input type="hidden" name="showImage_hidden" id="showImage_hidden"/>
+									<input type="hidden" name="showImage" id="showImage_hidden"/>
 									<%-- writer를 disabled로 설정했기 때문에 writer에 해당하는 value값을 hidden으로 전송하기 --%>
 									<input type="hidden" id="writer" name="writer" value="{{dtoData.dto.id}}"/>
 									<!-- 작성자 -->
@@ -114,7 +114,7 @@
 									<button type="submit" class="btn btn-outline-success" onclick="submitContents(this);">저장</button>
 								</form>
 								
-								<form style="display:none;" action="show_image_upload.jsp" method="post" 
+								<form style="display:none;" action="show_image_upload.do" method="post" 
 									enctype="multipart/form-data" id="showImageForm">
 									<input type="file" name="image"
 										accept=".jpg, .jpeg, .png, .JPG, .JPEG" id="image"/>
@@ -173,9 +173,9 @@
 	
 	//임시 저장 버튼을 클릭했을 대 이벤트 발생.
 	$(".temp_save").on("click", function(){
-		//temp_save 버튼을 눌렀을 때 폼 액션 값을 temp_save.jsp 바꿔준다.
-		$("#submitForm").attr("action", "temp_save.jsp");
-		//스마트 에디터 내용과 함께 다른 value값을 temp_save.jsp 페이지로 보낸다.
+		//temp_save 버튼을 눌렀을 때 폼 액션 값을 temp_save.do 바꿔준다.
+		$("#submitForm").attr("action", "temp_save.do");
+		//스마트 에디터 내용과 함께 다른 value값을 temp_save.do 페이지로 보낸다.
 		submitContents(this);
 	});
 	
@@ -184,10 +184,10 @@
 		//ajax 요청 처리를 한다.
 		$.ajax({
 			method:"get",
-			url:"temp_lead.jsp", //요청 파라미터가 없으면 전달 안해도 된다.
+			url:"temp_lead.do", //요청 파라미터가 없으면 전달 안해도 된다.
 			success:function(data){
 				/*
-					temp_lead.jsp 페이지에서 contentType 을 application/json
+					temp_lead.do 페이지에서 contentType 을 application/json
 					이라고 정확히 명시 했기 때문에 jquery 가 응답된 문자열을
 					object 로 바꿔서 전달을 해준다.
 				*/
@@ -210,10 +210,10 @@
 		//ajax 요청 처리를 한다.(img 태그의 쌍따옴표로인한 json 형식의 저장이 원활히 되지 않기 때문에 content 부분만 따로 요청)
 		$.ajax({
 			method:"get",
-			url:"temp_lead_content.jsp", //요청 파라미터가 없으면 전달 안해도 된다.
+			url:"temp_lead_content.do", //요청 파라미터가 없으면 전달 안해도 된다.
 			success:function(data){
 				/*
-					temp_lead.jsp 페이지에서 contentType 을 application/json
+					temp_lead.do 페이지에서 contentType 을 application/json
 					이라고 정확히 명시 했기 때문에 jquery 가 응답된 문자열을
 					object 로 바꿔서 전달을 해준다.
 				*/

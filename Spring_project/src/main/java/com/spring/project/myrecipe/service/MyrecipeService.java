@@ -18,4 +18,6 @@ public interface MyrecipeService {
 	public Map<String, Object> getPagingList(HttpServletRequest request);
 	//레시피 작성하기 폼 요청 관련 추상 메소드
 	public Map<String, Object> getAjaxData(HttpSession session, ModelAndView mView);
+	//레시피 저장하기 요청 관련 추상 메소드
+	public void saveRecipe(MyrecipeDto dto, HttpServletRequest request, ModelAndView mView);
 }

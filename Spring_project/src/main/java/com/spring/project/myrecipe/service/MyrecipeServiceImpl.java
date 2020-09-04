@@ -279,4 +279,15 @@ public class MyrecipeServiceImpl implements MyrecipeService{
 		
 		return dtoData;
 	}
+	//레시피 저장하기 요청 관련 메소드
+	@Override
+	public void saveRecipe(MyrecipeDto dto, HttpServletRequest request, ModelAndView mView) {
+		//아이디 정보를 가져온다.
+		String id = (String)request.getSession().getAttribute("id");
+		//myrecipeDao 를 통해 dto 값 저장한 후 성공유무를 isSuccess 변수에 담는다.
+		boolean isSuccess = myrecipeDao.insert(dto);
+		//mView 객체에 isSuccess의 값을 저장한다.
+		mView.addObject("isSuccess", isSuccess);
+		mView.addObject("writer", id);
+	}
 }

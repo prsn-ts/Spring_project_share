@@ -12,4 +12,6 @@ public interface MyrecipeDao {
 	public int getCount(MyrecipeDto dto);
 	//회원 한명의 글쓰기 정보를 가져오는 추상 메소드
 	public MyrecipeDto getWriteData(String writer);
+	//작성된 레시피를 저장하는 추상 메소드
+	public boolean insert(MyrecipeDto dto);
 }

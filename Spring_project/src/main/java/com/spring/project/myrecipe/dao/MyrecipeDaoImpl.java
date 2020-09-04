@@ -30,4 +30,14 @@ public class MyrecipeDaoImpl implements MyrecipeDao{
 		
 		return session.selectOne("myrecipe.getWriteData", writer);
 	}
+	@Override
+	public boolean insert(MyrecipeDto dto) {
+		int result = session.insert("myrecipe.insert", dto);
+		//insert의 성공유무를 true or false로 리턴한다.
+		if(result > 0) {
+			return true;
+		}else {
+			return false;
+		}
+	}
 }

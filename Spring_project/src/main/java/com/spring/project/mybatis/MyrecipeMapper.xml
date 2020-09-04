@@ -20,7 +20,7 @@
 						WHERE writer LIKE '${writer}'
 					</when>
 				</choose>
-				ORDER BY num DESC) result1)
+				ORDER BY num ASC) result1)
 		WHERE rnum BETWEEN #{startRowNum} AND #{endRowNum}
 	</select>
 	<select id="getCount" parameterType="myrecipeDto" resultType="int">
@@ -44,4 +44,10 @@
 		FROM my_recipe mr, login log
 		WHERE mr.writer(+) = log.id AND id = #{writer}
 	</select>
+	<insert id="insert" parameterType="myrecipeDto">
+		INSERT INTO my_recipe
+		(num, writer, title, subtitle, imagepath, showimage, content, regdate, viewcount)
+		VALUES(my_recipe_seq.NEXTVAL, #{writer}, #{title},
+		 #{subTitle}, #{imagePath}, #{showImage}, #{content}, SYSDATE, 0)
+	</insert>
 </mapper>

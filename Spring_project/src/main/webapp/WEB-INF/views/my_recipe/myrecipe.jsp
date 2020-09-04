@@ -77,7 +77,20 @@
 			  range.push(i);
 			}
 			$scope.range = range;
-			console.log($scope);
+			//검색조건의 데이터 표시 형식 정하는 작업.
+			if($scope.condition == "title_content"){
+				$scope.condition = "제목+내용";
+				var el = angular.element('#title_content');
+				el.attr('selected', '');
+			}else if($scope.condition == "title"){
+				$scope.condition = "제목";
+				var el = angular.element('#title');
+				el.attr('selected', '');
+			}else if($scope.condition == "writer"){
+				$scope.condition = "작성자";
+				var el = angular.element('#writer');
+				el.attr('selected', '');
+			}
 		});
 		//다음 페이지 버튼을 눌렀을 때 호출되는 함수
 		$scope.next=function(){
@@ -245,9 +258,9 @@
 					<form action="myrecipe.do" method="get" accept-charset="UTF-8">
 						<label for="condition">검색조건</label>
 						<select name="condition" id="condition">
-							<option value="title_content">제목+내용</option>
-							<option value="title">제목</option>
-							<option value="writer">작성자</option>
+							<option id="title_content" value="title_content">제목+내용</option>
+							<option id="title" value="title">제목</option>
+							<option id="writer" value="writer">작성자</option>
 						</select>
 						<input value="{{keyword}}" type="text" name="keyword" placeholder="검색어..."/>
 						<button class="btn-primary" ng-click="next()">검색</button>

@@ -58,7 +58,7 @@ public class LoginFilter implements Filter{
 			//로그인 폼으로 리다일렉트 이동하라고 응답
 			HttpServletResponse res=(HttpServletResponse)response;
 			String cPath=req.getContextPath();
-			res.sendRedirect(cPath+"/login/login_form.jsp?url="+encodedUrl);
+			res.sendRedirect(cPath+"/login/login_form.do?url="+encodedUrl);
 			
 		}
 	}

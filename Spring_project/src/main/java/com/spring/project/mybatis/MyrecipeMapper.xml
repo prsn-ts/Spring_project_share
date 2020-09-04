@@ -38,4 +38,10 @@
 			</when>
 		</choose>
 	</select>
+	<select id="getWriteData" parameterType="String" resultType="myrecipeDto">
+		SELECT mr.num, log.id, mr.title, mr.subTitle, mr.content, 
+			mr.writer, mr.regdate, mr.imagePath, mr.showImage, mr.viewCount
+		FROM my_recipe mr, login log
+		WHERE mr.writer(+) = log.id AND id = #{writer}
+	</select>
 </mapper>

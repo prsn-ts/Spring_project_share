@@ -8,18 +8,27 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.spring.project.login.dao.LoginDao;
+import com.spring.project.login.dto.LoginDto;
 import com.spring.project.myrecipe.dao.MyrecipeDao;
 import com.spring.project.myrecipe.dto.MyrecipeDto;
+import com.spring.project.tempmyrecipe.dao.TempMyrecipeDao;
+import com.spring.project.tempmyrecipe.dto.TempMyrecipeDto;
 
 @Service
 public class MyrecipeServiceImpl implements MyrecipeService{
 	@Autowired
 	private MyrecipeDao myrecipeDao;
+	@Autowired
+	private LoginDao loginDao;
+	@Autowired
+	private TempMyrecipeDao tempMyrecipeDao;
 	
 	//한 페이지에 나타낼 row 의 갯수
 	final int PAGE_ROW_COUNT=8; //프로젝트 상황에 맞게끔 변경가능
@@ -249,5 +258,25 @@ public class MyrecipeServiceImpl implements MyrecipeService{
 		pagingMap.put("condition", condition);
 		
 		return pagingMap;
+	}
+	//레시피 작성하기 폼 요청 관련 메소드
+	@Override
+	public Map<String, Object> getAjaxData(HttpSession session, ModelAndView mView) {
+		//1. GET 방식 파라미터로 전달되는 글번호를 읽어온다.
+		String id=(String)session.getAttribute("id");
+		//2. DB 에서 해당 글 정보를 얻어온다.
+		LoginDto dto=loginDao.getData(id);
+		//이미지 표시할 준비를 한다.
+		MyrecipeDto recipe_dto = myrecipeDao.getWriteData(id);
+		//임시 저장된 내용을 표시할 준비를 한다.
+		TempMyrecipeDto temp_dto = tempMyrecipeDao.getTempWriteData(id);
+		
+		//map 객체에 dto 정보들을 담는다.
+		Map<String, Object> dtoData = new HashMap<>();
+		dtoData.put("dto", dto);
+		dtoData.put("recipe_dto", recipe_dto);
+		dtoData.put("temp_dto", temp_dto);
+		
+		return dtoData;
 	}
 }

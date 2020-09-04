@@ -24,4 +24,10 @@ public class MyrecipeDaoImpl implements MyrecipeDao{
 	public int getCount(MyrecipeDto dto) {
 		return session.selectOne("myrecipe.getCount", dto);
 	}
+	//회원 한명의 글쓰기 정보를 가져오는 메소드
+	@Override
+	public MyrecipeDto getWriteData(String writer) {
+		
+		return session.selectOne("myrecipe.getWriteData", writer);
+	}
 }

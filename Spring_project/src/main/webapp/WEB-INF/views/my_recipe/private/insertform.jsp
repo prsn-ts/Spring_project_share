@@ -6,7 +6,6 @@
 <head>
 <meta charset="UTF-8">
 <title>/my_recipe/private/insertform.do</title>
-
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/bootstrap.css" />
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
 <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css" />
@@ -100,12 +99,15 @@
 										</div>
 										<input type="button" name="showImage_btn" id="showImage_btn" class="file_select btn btn-success btn-sm" value="대표 이미지 고르기">
 									</div>
+									<img id="showImage" src="" alt="" />
+									<!-- 
 									<div ng-if="dtoData.temp_dto or dtoData.temp_dto.imagePath">
 										<img id="showImage" src="" alt="" />
 									</div>
 									<div ng-if="!dtoData.temp_dto.imagePath">
 										<img id="showImage" src="" alt="" />
 									</div>
+									-->
 									<!-- 스마트에디터(content) 부분 -->
 									<div class="form-group ">
 										<textarea name="content" id="content" cols="30" rows="10"></textarea>
@@ -140,8 +142,8 @@
 <!-- SmartEditor 에서 필요한 javascript 로딩  -->
 <script src="${pageContext.request.contextPath }/SmartEditor/js/HuskyEZCreator.js"></script>
 <!-- jquery -->
-<script src="${pageContext.request.contextPath}/js/jquery-3.5.1.js"></script>
-<script src="${pageContext.request.contextPath}/js/jquery.form.min.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/jquery-3.5.1.js"></script>
+<script src="${pageContext.request.contextPath}/resources/js/jquery.form.min.js"></script>
 <%--
 	[ SmartEditor 를 사용하기 위한 설정 ]
 	
@@ -240,6 +242,7 @@
 	
 	//폼이 ajax 로 제출될 수 있도록 플러그인을 동작 시킨다.
 	$("#showImageForm").ajaxForm(function(data){
+		console.log("실행순서 들어옴2!!");
 		//프로필 이미지를 업데이트 한다. data => {imageSrc:"/upload/xxx.jpg","showImage":"xxx.jpg"}
 		$("#showImage")
 		.attr("src","${pageContext.request.contextPath}"+data.imageSrc);

@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.spring.project.myrecipe.dto.MyrecipeDto;
@@ -20,4 +21,6 @@ public interface MyrecipeService {
 	public Map<String, Object> getAjaxData(HttpSession session, ModelAndView mView);
 	//레시피 저장하기 요청 관련 추상 메소드
 	public void saveRecipe(MyrecipeDto dto, HttpServletRequest request, ModelAndView mView);
+	//대표 이미지 업로드 요청 관련 추상 메소드
+	public Map<String, Object> showImageUpload(MultipartFile image, HttpServletRequest request);
 }

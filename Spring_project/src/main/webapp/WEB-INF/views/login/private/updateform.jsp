@@ -133,6 +133,7 @@
 	
 	//폼이 ajax 로 제출될 수 있도록 플러그인을 동작 시킨다.
 	$("#profileForm").ajaxForm(function(data){
+		console.log("실행순서 들어옴2!!");
 		//프로필 이미지를 업데이트 한다. data => {imageSrc:"/upload/xxx.jpg","saveFileName":"xxx.jpg"}
 		$("#profileImage")
 		.attr("src","${pageContext.request.contextPath}"+data.imageSrc);

@@ -9,7 +9,9 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.spring.project.myrecipe.dto.MyrecipeDto;
@@ -68,5 +70,15 @@ public class MyrecipeController {
 		//view 페이지의 정보를 담는다.
 		mView.setViewName("my_recipe/private/insert");
 		return mView;
+	}
+	
+	//대표 이미지 설정 요청 처리
+	@RequestMapping("/my_recipe/private/show_image_upload.do")
+	@ResponseBody
+	public Map<String, Object> showImageUpload(@RequestParam MultipartFile image, HttpServletRequest request){
+		//대표 이미지 업로드 요청을 처리할 서비스 객체 구현
+		Map<String, Object> resultMap = myrecipeService.showImageUpload(image, request);
+		//대표 이미지 업로드 관련 정보를 담은 map 객체를 리턴한다.
+		return resultMap;
 	}
 }

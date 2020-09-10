@@ -1,8 +1,10 @@
 package com.spring.project.myrecipe.service;
 
+import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +14,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.spring.project.login.dao.LoginDao;
@@ -289,5 +292,73 @@ public class MyrecipeServiceImpl implements MyrecipeService{
 		//mView 객체에 isSuccess의 값을 저장한다.
 		mView.addObject("isSuccess", isSuccess);
 		mView.addObject("writer", id);
+	}
+	//대표 이미지 업로드 요청 관련 메소드
+	@Override
+	public Map<String, Object> showImageUpload(MultipartFile image, HttpServletRequest request) {
+		//업로드된 파일의 정보를 가지고 있는 MultipartFile 객체의 참조값 얻어오기
+		MultipartFile myFile = image;
+		//원본 파일명과 파일의 크기를 알아낸다.
+		//원본 파일명
+		String orgFileName = myFile.getOriginalFilename();
+		//파일의 크기
+		long fileSize = myFile.getSize();
+		
+		//임시 폴더에 있는 파일을 upload 폴더에 옮겨야한다.
+		// webapp/upload 폴더 까지의 실제 경로(서버의 파일 시스템 상에서의 경로)
+		String realPath = request.getServletContext().getRealPath("/upload");
+		//저장할 파일의 상세 경로
+		String filePath = realPath+File.separator;
+		//디렉토리를 만들 파일 객체 생성
+		File upload = new File(filePath);
+		if(!upload.exists()) {//만일 디렉토리가 존재하지 않으면
+			upload.mkdir(); //만들어 준다.
+		}
+		//저장할 파일 명을 구성한다.
+		String saveFileName = 
+				System.currentTimeMillis()+orgFileName;
+		//이미지 파일이 저장된 경로
+	    String imageSrc = "/upload/"+saveFileName;
+	    
+		try {
+			//upload 폴더에 파일을 저장한다.
+			//(서버의 파일 시스템 상에서의 경로+File.separator(filePath)와 저장된 파일 이름(saveFileName)의 정보를 가진 파일 객체를 생성한 후에 transferTo 함수의 인자로 던져주면 내부적으로 임시 폴더에 있던 파일을 upload 폴더에 옮겨준다(저장해준다))
+			myFile.transferTo(new File(filePath+saveFileName));
+			System.out.println(filePath+saveFileName);
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
+		//session 영역에 선택한 프로필이 저장된 물리적인 경로를 저장한다.
+		request.getSession().setAttribute(orgFileName, filePath+saveFileName);
+		//session 영역에 저장된 이전의 프로필 정보들을 가져온다.
+		Enumeration<String> filePaths = request.getSession().getAttributeNames();
+	    //filePaths가 존재하는 동안 반복.
+		while(filePaths.hasMoreElements()){
+		    String fileName = filePaths.nextElement();
+		    String file_path = (String)request.getSession().getAttribute(fileName);
+		    //선택한 프로필의 원본 파일명과 session에 저장된 원본 파일명이 같지 않은 경우
+		    if(!orgFileName.equals(fileName)) {
+			    //upload 폴더 내에 있는 파일을 삭제한다.
+		    	//파일 객체 생성 후 파일 삭제
+		    	File file = new File(file_path);
+		    	if(file.exists()){
+		    		if(file.delete()){
+		    			System.out.println("삭제 성공!");
+		    		}else{
+		    			System.out.println("삭제 실패..");
+		    		}
+		    	}else{ 
+		    		System.out.println("파일이 존재하지 않습니다.");
+		    	}
+		    }
+		    System.out.println(fileName + " : " + file_path);
+		}
+	    
+	    //이미지 경로와 저장된 파일이름을 mView에 담는다.
+	    Map<String, Object> resultValue = new HashMap<>();
+	    resultValue.put("imageSrc", imageSrc);
+	    resultValue.put("showImage", saveFileName);
+	    //리턴한다.
+	    return resultValue;	
 	}
 }

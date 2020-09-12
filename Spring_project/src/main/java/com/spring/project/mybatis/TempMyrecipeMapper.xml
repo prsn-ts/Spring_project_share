@@ -6,4 +6,22 @@
 		FROM tmp_my_recipe
 		WHERE tmp_writer = #{tmp_writer}
 	</select>
+	<!-- 임시 저장된 특정 회원의 글 정보가 존재하는지 확인 -->
+	<select id="temp_insert_Confirm" parameterType="String" resultType="int">
+		SELECT *
+		FROM tmp_my_recipe
+		WHERE tmp_writer = #{tmp_writer}
+	</select>
+	<!-- 임시 저장된 글 내용을 수정 -->
+	<update id="temp_update" parameterType="tempmyrecipeDto">
+		UPDATE tmp_my_recipe
+		SET tmp_title=#{title}, tmp_subTitle=#{subTitle}, tmp_imagePath=#{imagePath}, tmp_showImage=#{showImage}, tmp_content=#{content}
+		WHERE tmp_writer = #{writer}
+	</update>
+	<!-- 글 정보를 DB에 임시 저장 -->
+	<insert id="temp_insert" parameterType="tempmyrecipeDto">
+		INSERT INTO tmp_my_recipe
+		(tmp_num,tmp_title,tmp_subTitle,tmp_content,tmp_writer,tmp_regdate,tmp_imagePath,tmp_showImage,tmp_viewCount)
+		VALUES(tmp_my_recipe_seq.NEXTVAL, #{title}, #{subTitle}, #{content}, #{writer}, SYSDATE, #{imagePath}, #{showImage}, 0)
+	</insert>
 </mapper>
